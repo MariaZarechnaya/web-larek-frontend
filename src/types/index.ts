@@ -7,7 +7,7 @@ interface ICard {
     name: string;
     text:string;
     link:string;
-    price:number;
+    price:number | null;
 }
 type Pay = 'Онлайн'| 'Наличные'
 
@@ -23,7 +23,7 @@ interface ICardList  {
     cards: ICard[]  
     preview: string | null 
 }
-interface IBacket {
+interface IBasket {
     items: Map <string, number>
     sum:number
 }
@@ -38,3 +38,9 @@ export interface IApi {
 }
 
 type ApiPostMethods = 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
+
+interface IFormState {
+    valid: boolean;
+    errors: string[];
+}
