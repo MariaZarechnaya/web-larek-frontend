@@ -1,35 +1,41 @@
 
-import { IEvents } from "../components/base/events";
 
-interface ICard {
+export interface ICard {
     id: string,
     category: string;
-    name: string;
-    text:string;
-    link:string;
+    title: string;
+    description:string;
+    image:string;
     price:number | null;
-}
-type Pay = 'Онлайн'| 'Наличные'
 
-interface IUser {
-    paymentType: Pay;
-    adress:string;
+}
+
+export  interface IUser {
+    payment: string;
+    address:string;
     email:string;
     phone:string;
+    items:string[]
+    total: number
+    
+}
+export interface IOrderForm {
+    payment?: string;
+    email: string;
+    phone: string;
+    address:string
 }
 
-interface ICardList  {
+
+export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
+
+export  interface ICardList  {
     total:number;
     cards: ICard[]  
     preview: string | null 
 }
-interface IBasket {
-    items: Map <string, number>
-    sum:number
-}
 
-type basketCard = Pick <ICard,"id"|"name"|"price">  
-type previewCard = Pick <ICard, "category"|"name"| "link"|"price" >
+
 
 export interface IApi {
     baseUrl: string;
@@ -40,7 +46,19 @@ export interface IApi {
 type ApiPostMethods = 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 
-interface IFormState {
+export interface IFormState {
     valid: boolean;
     errors: string[];
+}
+
+export interface IAppState {
+    catalog: ICard[];
+    basket: string[];
+    preview: string | null;
+    order: IUser;
+    loading: boolean;
+}
+export interface IOrderResult {
+    id: string;
+    total: number
 }
