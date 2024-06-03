@@ -156,10 +156,10 @@ items: []\
 Класс так же содержит методы:
 
 - getCard (id:string):ICard- возвращает карточку по ее id
-- setCatalog(items: ICard[]) - устанавливает каталог
+- setCatalog(items: CardItem[]) - устанавливает каталог
 - setBasket(item: CardItem) - устанавливает данные корзины
 - clearBasket() - очистка корзины
-- clearItems () - очистка товаров в заказе
+- clearOrder() - очистка заказа
 - setItems(item:ICard) - наполнить заказ товарами
 - getBasket () - получить данные корзины
 - checkCard (id:string) - проверка карточки
@@ -283,6 +283,9 @@ interface IFormState {
 
 Конструктор:
 - constructor(container: HTMLFormElement, events: IEvents)
+
+Методы:
+- changeClass(name?:string) - меняет класс кнопок выбора оплаты
 
 ### Класс Page
 Отвечает за отрисовку страницы

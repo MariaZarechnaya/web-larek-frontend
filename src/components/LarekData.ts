@@ -8,7 +8,6 @@ export class CardItem extends Model<ICard> {
 	description: string;
 	image: string;
 	price: number;
-	status: string;
 }
 // отдельный  тип для описания каталога.
 export type CatalogChangeEvent = {
@@ -19,7 +18,6 @@ export class AppState extends Model<IAppState> {
 	basket: CardItem[] = [];
 	basketTotal: number;
 	catalog: CardItem[];
-	// loading: boolean;
 	order: IUser = {
 		payment: '',
 		email: '',
@@ -30,10 +28,11 @@ export class AppState extends Model<IAppState> {
 	};
 	preview: string;
 	formErrors: FormErrors = {};
+
 	// методы
 	// заполнить каталог
-	setCatalog(items: ICard[]) {
-		this.catalog = items.map((item) => new CardItem(item, this.events));
+	setCatalog(items: CardItem[]) {
+		this.catalog = items;
 		this.emitChanges('items:changed', { catalog: this.catalog });
 	}
 	// заполнить корзину
@@ -48,8 +47,13 @@ export class AppState extends Model<IAppState> {
 			this.emitChanges('basket:delete-card', el);
 		});
 	}
-	// очистка товаров в заказе
-	clearItems() {
+	// очистка заказа
+	clearOrder() {
+		this.order.payment = '';
+		this.order.email = '';
+		this.order.phone = '';
+		this.order.address = '';
+		this.order.total = 0;
 		this.order.items = [];
 	}
 	// установка товаров в заказ
@@ -58,7 +62,6 @@ export class AppState extends Model<IAppState> {
 			return;
 		}
 		this.order.items.push(item.id);
-		// console.log(this.order.items)
 	}
 	// получить корзину
 	getBasket() {

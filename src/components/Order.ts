@@ -5,7 +5,7 @@ import { ensureElement, ensureAllElements } from '../utils/utils';
 
 // формы заказа
 export class Order extends Form<IUser> {
-	_btnCollection: HTMLElement[];
+	_btnCollection: HTMLButtonElement[];
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
 		this._submit = ensureElement<HTMLButtonElement>(
@@ -19,11 +19,13 @@ export class Order extends Form<IUser> {
 
 		if (this._btnCollection) {
 			this._btnCollection.forEach((btn) => {
-				btn.addEventListener('click', () => {
+				btn.addEventListener('click', (e) => {
 					events.emit('payment:change', {
 						field: 'payment',
 						value: btn.textContent,
 					});
+					let button = e.target as HTMLButtonElement;
+					this.changeClass(button.name);
 				});
 			});
 		}
@@ -32,19 +34,15 @@ export class Order extends Form<IUser> {
 			this._submit.addEventListener('click', (e) => {
 				if (e.target == container.querySelector('.order__button')) {
 					events.emit('contacts:open');
+					this.changeClass();
 				}
 			});
 		}
 	}
 
-	//     set address (value: string) {
-	//     (this.container.elements.namedItem('address') as HTMLInputElement).value = value;
-	// }
-	//     set phone(value: string) {
-	//         (this.container.elements.namedItem('phone') as HTMLInputElement).value = value;
-	//     }
-
-	//     set email(value: string) {
-	//         (this.container.elements.namedItem('email') as HTMLInputElement).value = value;
-	//     }
+	changeClass(name?: string) {
+		this._btnCollection.forEach((button) => {
+			this.toggleClass(button, 'button_alt-active', button.name === name);
+		});
+	}
 }

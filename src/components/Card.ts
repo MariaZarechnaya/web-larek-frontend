@@ -32,7 +32,6 @@ export class Card<T> extends Component<ICardView<T>> {
 		actions?: ICardActions
 	) {
 		super(container); // контейнером будет card-catalog по идее
-		// this.status = false
 		this._title = ensureElement<HTMLElement>(`.${blockName}__title`, container);
 		this._category = container.querySelector(`.${blockName}__category`);
 		this._image = ensureElement<HTMLImageElement>(
@@ -72,6 +71,26 @@ export class Card<T> extends Component<ICardView<T>> {
 	}
 	set category(value: string) {
 		this.setText(this._category, value);
+		switch (value) {
+			case 'другое':
+				this.setCategoryClass(`other`);
+				break;
+			case 'софт-скил':
+				this.setCategoryClass(`soft`);
+				break;
+			case 'дополнительное':
+				this.setCategoryClass(`additional`);
+				break;
+			case 'кнопка':
+				this.setCategoryClass(`button`);
+				break;
+			case 'хард-скил':
+				this.setCategoryClass(`hard`);
+				break;
+		}
+	}
+	setCategoryClass(value: string) {
+		this._category.classList.add(`${this.blockName}__category_${value}`);
 	}
 
 	set title(value: string) {
@@ -102,6 +121,9 @@ export class Card<T> extends Component<ICardView<T>> {
 	changeButton() {
 		this._button.textContent = 'Добавлен в корзину';
 	}
+	// setCategoryClass () {
+
+	// }
 }
 
 export class ProductItem extends Card<HTMLElement> {

@@ -33,6 +33,7 @@ const appData = new AppState({}, events);
 api
 	.getCardList()
 	.then(appData.setCatalog.bind(appData))
+	.then(()=>console.log(appData.catalog))
 	.catch((err) => {
 		console.error(err);
 	});
@@ -174,6 +175,7 @@ events.on('basket:open', () => {
 
 // открыть форму с выбором оплаты и адресом
 events.on('order:open', () => {
+	console.log(appData.order);
 	modal.render({
 		content: order.render({
 			payment: '',
@@ -240,11 +242,10 @@ events.on('contacts:submit', () => {
 		.orderLots(appData.order)
 		.then((result) => {
 			appData.clearBasket();
-			appData.clearItems();
+			appData.clearOrder();
 			const success = new Success(cloneTemplate(successTemplate), {
 				onClick: () => {
 					modal.close();
-					appData.order.payment = '';
 					order.reset();
 					contacts.reset();
 				},
